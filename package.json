@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/genezablan/DwwHBwYIBwYJCQkCBAkNAA#readme",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "co": "^4.6.0"
   }
 }
