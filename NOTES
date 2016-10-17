@@ -1,0 +1,6 @@
+sudo apt-get update
+sudo apt-get install -y beanstalkd
+sudo apt-get install -y php5 php5-cli
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+composer create-project ptrofimov/beanstalk_console -s dev /app/beanstalk-console
