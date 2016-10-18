@@ -4,10 +4,23 @@ const co = require('co');
 const Promise = require('bluebird');
 const request = require('request');
 const cheerio = require('cheerio');
+const Beansworker = require('fivebeans').worker;
+/**
 
+[
+    "default",
+    {
+        "type":"scraper",
+        "payload":{
+            "name":"gg gg",
+            "sign":"gg"
+        }
+    }
+]
+**/
 class Consumer {
 	constructor(){
-
+		this.type = 'scraper';
 	}
 	getExchangeRate(data) {
 		return new Promise((resolve,reject) => {
@@ -32,14 +45,22 @@ class Consumer {
 			})	
 		});
 	}
+
+	work(payload,callback){
+		console.log('payload:',payload);
+		callback('success');
+	}
 }
 
-co(function* (){
-	let consumer = new Consumer();
-	let exchangeRate = yield consumer.getExchangeRate({from:'USD',to:'EUR'});
-	console.log('htmlBody:',exchangeRate);
-}).catch(onerror);
-
-function onerror(err) {
-  console.error(err.stack);
+let consumer = new Consumer();
+let options = {
+	id: 'worker_1',
+	host: '127.0.0.1',
+	port: 11300,
+	handlers : {
+		'scraper': consumer
+	},
+	ignoreDefault: true
 }
+let worker = new Beansworker(options);
+worker.start(['default']);
